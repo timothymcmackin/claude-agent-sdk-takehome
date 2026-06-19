@@ -325,6 +325,83 @@
       margin: 48px 0;
     }
 
+    /* ── Nav definition list ── */
+    .nav-sections { margin-bottom: 24px; }
+
+    .nav-section { margin-bottom: 28px; }
+
+    .nav-section-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+
+    dl.nav-dl {
+      padding-left: 18px;
+      border-left: 2px solid var(--border);
+      margin: 0;
+    }
+
+    dl.nav-dl dt {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 14px;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    dl.nav-dl dd {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 3px 0 0 0;
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: 2px 7px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+      position: relative;
+      top: -1px;
+    }
+
+    .badge-existing { background: #fef3cd; color: #7a5500; }
+    .badge-new      { background: #ead5f5; color: #5a1a8a; }
+    .badge-auto     { background: #ddeeff; color: #1a4a7a; }
+
+    .nav-ref-note {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+      padding: 10px 0 4px 18px;
+      border-left: 2px solid var(--border);
+    }
+
+    .nav-ref-pages {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      padding-left: 18px;
+      border-left: 2px solid var(--border);
+      margin: 0;
+    }
+
+    .nav-ref-pages li { margin-bottom: 4px; }
+
     /* ── Responsive ── */
     @media (max-width: 720px) {
       .page { flex-direction: column; gap: 0; padding: 24px 16px 64px; }
@@ -396,106 +473,219 @@
 
       <h3 id="a1-tree">Proposed navigation</h3>
 
-      <div class="nav-tree">
-        <ul>
-          <li>Agent SDK
-            <ul>
-              <li>Overview</li>
-              <li>Quickstart</li>
-              <li>Compatible Claude Code features</li>
-              <li>Message lifecycle</li>
-              <li>Context window</li>
-              <li>Converting Claude Code workflows to Agent SDK workflows</li>
-            </ul>
-          </li>
-          <li>Setting permissions
-            <ul>
-              <li>Setting permission modes</li>
-              <li>Intercepting behavior with hooks</li>
-              <li>Running tools in the sandbox</li>
-              <li>Checkpointing and rewinding file changes</li>
-            </ul>
-          </li>
-          <li>Sending requests
-            <ul>
-              <li>Streaming queries</li>
-              <li>Sending individual queries</li>
-              <li>Using the client class</li>
-              <li>Spawning subagents</li>
-              <li>Setting custom prompts</li>
-              <li>Changing models</li>
-            </ul>
-          </li>
-          <li>Receiving responses
-            <ul>
-              <li>Approval requests</li>
-              <li>User questions</li>
-              <li>Tracking and displaying todo lists</li>
-              <li>Streaming output</li>
-              <li>Structured output</li>
-              <li>Error handling and retry</li>
-            </ul>
-          </li>
-          <li>Persisting sessions
-            <ul>
-              <li>Saving and restoring sessions</li>
-              <li>Saving sessions to external storage</li>
-              <li>Sharing sessions between hosts</li>
-              <li>Storing subagent sessions</li>
-            </ul>
-          </li>
-          <li>Extending the SDK with custom tools
-            <ul>
-              <li>Skills</li>
-              <li>Custom tools</li>
-              <li>Custom slash commands</li>
-              <li>External MCP servers</li>
-              <li>Embedded MCP servers</li>
-              <li>Plugins</li>
-              <li>Tool scaling</li>
-              <li>Troubleshooting custom tools</li>
-            </ul>
-          </li>
-          <li>Bundling the SDK in hosted applications
-            <ul>
-              <li>Hosting the SDK in production</li>
-              <li>Running agents in CI/CD pipelines</li>
-              <li>Testing and evaluating applications</li>
-              <li>Containerizing applications</li>
-              <li>Managing credentials securely</li>
-            </ul>
-          </li>
-          <li>Auditing usage
-            <ul>
-              <li>Tracking cost</li>
-              <li>Exporting logs and telemetry</li>
-              <li>Protecting sensitive data</li>
-              <li>Identifying users</li>
-            </ul>
-          </li>
-          <li>TypeScript SDK reference
-            <ul>
-              <li>Quickstart</li>
-              <li>Installation</li>
-              <li>Compilation</li>
-              <li>The query function</li>
-              <li>Other functions</li>
-              <li>Types</li>
-              <li>Hooks</li>
-              <li>Sandbox</li>
-              <li>Troubleshooting
-                <ul>
-                  <li>Handling slow or stalled responses</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>Python SDK reference
-            <ul>
-              <li><em>Similar structure to TypeScript reference; main addition is the <code>ClaudeSDKClient</code> class.</em></li>
-            </ul>
-          </li>
-        </ul>
+      <div class="nav-sections">
+
+        <!-- Agent SDK -->
+        <div class="nav-section">
+          <p class="nav-section-title">Agent SDK</p>
+          <dl class="nav-dl">
+            <dt>Overview <span class="badge badge-existing">Existing</span></dt>
+            <dd>What the Agent SDK is, when to use it over the Claude API or interactive Claude Code, and what you can build with it. Introduces the core model: your code drives Claude as a subprocess.</dd>
+
+            <dt>Quickstart <span class="badge badge-existing">Existing</span></dt>
+            <dd>Get a working agent in minutes using a realistic enterprise task — finding and fixing a failing test across a codebase. Covers installation, authentication, and your first query.</dd>
+
+            <dt>Compatible Claude Code features <span class="badge badge-existing">Existing</span></dt>
+            <dd>Which Claude Code features — project instructions, skills, hooks, slash commands — are available when running through the SDK, which require extra setup, and which are not programmatically accessible.</dd>
+
+            <dt>Message lifecycle <span class="badge badge-new">Net-new</span></dt>
+            <dd>What happens during a single <code>query()</code> call — from request formation through tool turns and approval cycles to the final response. Helps readers reason about latency, token costs, and where to hook in.</dd>
+
+            <dt>Context window <span class="badge badge-new">Net-new</span></dt>
+            <dd>How the agent manages context across tool turns, how long sessions affect the context window, when content gets truncated, and how to fork or reset to stay within limits.</dd>
+
+            <dt>Converting Claude Code workflows to Agent SDK workflows <span class="badge badge-new">Net-new</span></dt>
+            <dd>For developers who already use Claude Code interactively and want to automate those same workflows. Maps common CLI patterns to SDK calls.</dd>
+          </dl>
+        </div>
+
+        <!-- Setting permissions -->
+        <div class="nav-section">
+          <p class="nav-section-title">Setting permissions</p>
+          <dl class="nav-dl">
+            <dt>Setting permission modes <span class="badge badge-existing">Existing</span></dt>
+            <dd>How to configure what tools the agent can use without prompting — allow-all, deny-all, and rule-based modes. Covers tradeoffs between full autonomy and human-in-the-loop control.</dd>
+
+            <dt>Intercepting behavior with hooks <span class="badge badge-existing">Existing</span></dt>
+            <dd>Run your own code before and after tool calls to validate inputs, enforce business rules, log decisions, or block specific operations.</dd>
+
+            <dt>Running tools in the sandbox <span class="badge badge-existing">Existing</span></dt>
+            <dd>OS-level filesystem and network isolation for Bash commands. Configure which paths and domains agent-spawned subprocesses can reach.</dd>
+
+            <dt>Checkpointing and rewinding file changes <span class="badge badge-existing">Existing</span></dt>
+            <dd>Snapshot the filesystem before risky operations and restore to a known-good state when something goes wrong.</dd>
+          </dl>
+        </div>
+
+        <!-- Sending requests -->
+        <div class="nav-section">
+          <p class="nav-section-title">Sending requests</p>
+          <dl class="nav-dl">
+            <dt>Streaming queries <span class="badge badge-existing">Existing</span></dt>
+            <dd>The primary way to send requests — open a streaming connection that delivers messages as the agent works. Covers long-running tasks, multi-turn conversations, and image input.</dd>
+
+            <dt>Sending individual queries <span class="badge badge-existing">Existing</span></dt>
+            <dd>One-shot request mode for simple, synchronous tasks where real-time output isn't needed. Trade streaming flexibility for simpler code.</dd>
+
+            <dt>Using the client class <span class="badge badge-existing">Existing</span></dt>
+            <dd>How to create and reuse a <code>ClaudeSDKClient</code> for multiple queries with shared configuration and session state, rather than calling <code>query()</code> each time.</dd>
+
+            <dt>Spawning subagents <span class="badge badge-existing">Existing</span></dt>
+            <dd>Delegate work to specialized subagents from within your main agent loop — the Agent tool, prompt construction, and collecting results.</dd>
+
+            <dt>Setting custom prompts <span class="badge badge-existing">Existing</span></dt>
+            <dd>How to set the system prompt, inject context mid-session, and shape how Claude interprets its role in your application.</dd>
+
+            <dt>Changing models <span class="badge badge-new">Net-new</span></dt>
+            <dd>How to target a specific Claude model version per query, and when to use different models for different agent roles — a fast model for subagents, a more capable model for planning.</dd>
+          </dl>
+        </div>
+
+        <!-- Receiving responses -->
+        <div class="nav-section">
+          <p class="nav-section-title">Receiving responses</p>
+          <dl class="nav-dl">
+            <dt>Approval requests <span class="badge badge-existing">Existing</span></dt>
+            <dd>Handle permission prompts programmatically — approve, deny, or route to an end user when the agent wants to run a sensitive command.</dd>
+
+            <dt>User questions <span class="badge badge-existing">Existing</span></dt>
+            <dd>How the agent surfaces clarifying questions during a task and how to respond with automated answers or route to a real user.</dd>
+
+            <dt>Tracking and displaying todo lists <span class="badge badge-existing">Existing</span></dt>
+            <dd>How to read todo update events from the response stream, track agent progress in your UI, and write to the todo list from SDK code.</dd>
+
+            <dt>Streaming output <span class="badge badge-existing">Existing</span></dt>
+            <dd>Consume the agent's output in real time — text deltas, tool-call events, thinking steps — and display them in a UI.</dd>
+
+            <dt>Structured output <span class="badge badge-existing">Existing</span></dt>
+            <dd>Get the agent to return JSON or typed data, validate against a schema, and retry on malformed responses.</dd>
+
+            <dt>Error handling and retry <span class="badge badge-new">Net-new</span></dt>
+            <dd>What happens when Claude errors, times out, or returns an unexpected response. Covers retry strategies, stall detection, and graceful degradation in production.</dd>
+          </dl>
+        </div>
+
+        <!-- Persisting sessions -->
+        <div class="nav-section">
+          <p class="nav-section-title">Persisting sessions</p>
+          <dl class="nav-dl">
+            <dt>Saving and restoring sessions <span class="badge badge-existing">Existing</span></dt>
+            <dd>Serialize a session after a query ends and resume, continue, or fork it later — preserving conversation history and tool state.</dd>
+
+            <dt>Saving sessions to external storage <span class="badge badge-existing">Existing</span></dt>
+            <dd>Persist session transcripts to a database or object store so sessions survive process restarts and can be shared across deployments.</dd>
+
+            <dt>Sharing sessions between hosts <span class="badge badge-new">Net-new</span></dt>
+            <dd>Hand a session from one server instance to another — useful for load balancing, failover, and multi-region deployments.</dd>
+
+            <dt>Storing subagent sessions <span class="badge badge-new">Net-new</span></dt>
+            <dd>Manage session state for subagents separately from the parent — when to isolate context, when to share it, and how to resume subagent sessions independently.</dd>
+          </dl>
+        </div>
+
+        <!-- Extending the SDK -->
+        <div class="nav-section">
+          <p class="nav-section-title">Extending the SDK with custom tools</p>
+          <dl class="nav-dl">
+            <dt>Skills <span class="badge badge-existing">Existing</span></dt>
+            <dd>Package prompts, tools, and configuration as reusable skills that can be shared and loaded across agents and projects.</dd>
+
+            <dt>Custom tools <span class="badge badge-existing">Existing</span></dt>
+            <dd>Define tools in your own code that the agent can call — input/output types, execution handlers, async patterns, and error reporting.</dd>
+
+            <dt>Custom slash commands <span class="badge badge-existing">Existing</span></dt>
+            <dd>Register SDK-side slash commands that users or calling code can invoke during a session to trigger predefined actions.</dd>
+
+            <dt>External MCP servers <span class="badge badge-existing">Existing</span></dt>
+            <dd>Connect the agent to tools hosted in external MCP servers over network or stdio transport.</dd>
+
+            <dt>Embedded MCP servers <span class="badge badge-new">Net-new</span></dt>
+            <dd>Bundle an MCP server inside your application process so tools run in-process without external dependencies or network calls.</dd>
+
+            <dt>Plugins <span class="badge badge-existing">Existing</span></dt>
+            <dd>Extend the SDK with plugins that add behavior across all sessions — hook into the agent loop, register tools globally, or modify prompts.</dd>
+
+            <dt>Tool scaling <span class="badge badge-existing">Existing</span></dt>
+            <dd>When the tool list grows too large for the context window, use tool search to surface only relevant tools per turn.</dd>
+
+            <dt>Troubleshooting custom tools <span class="badge badge-new">Net-new</span></dt>
+            <dd>Diagnose common failures — tool registration errors, input schema validation issues, handler exceptions, and timeout behavior.</dd>
+          </dl>
+        </div>
+
+        <!-- Bundling -->
+        <div class="nav-section">
+          <p class="nav-section-title">Bundling the SDK in hosted applications</p>
+          <dl class="nav-dl">
+            <dt>Hosting the SDK in production <span class="badge badge-existing">Existing</span></dt>
+            <dd>The subprocess model, what state lives on disk and why it matters, session patterns (ephemeral, long-running, hybrid), multi-tenant isolation, and resource sizing.</dd>
+
+            <dt>Running agents in CI/CD pipelines <span class="badge badge-new">Net-new</span></dt>
+            <dd>How to run agents as part of automated pipelines — code review, test generation, release notes — including ephemeral container patterns, parallelism, and cost control.</dd>
+
+            <dt>Testing and evaluating applications <span class="badge badge-new">Net-new</span></dt>
+            <dd>How to validate agent behavior before deployment — test harnesses, evaluation strategies, and how to assert on what the agent did and did not do.</dd>
+
+            <dt>Containerizing applications <span class="badge badge-existing">Existing</span></dt>
+            <dd>Docker and Kubernetes setup for agent workloads — hardened container flags, gVisor for stronger isolation, cloud sandbox providers, and resource limits.</dd>
+
+            <dt>Managing credentials securely <span class="badge badge-existing">Existing</span></dt>
+            <dd>The proxy pattern for keeping API keys outside the agent boundary, configuring Claude Code to use a proxy, and TLS-terminating proxies for tool credentials.</dd>
+          </dl>
+        </div>
+
+        <!-- Auditing -->
+        <div class="nav-section">
+          <p class="nav-section-title">Auditing usage</p>
+          <dl class="nav-dl">
+            <dt>Tracking cost <span class="badge badge-existing">Existing</span></dt>
+            <dd>Monitor token usage and API costs per session, per user, or across a deployment. Set budgets and surface alerts.</dd>
+
+            <dt>Exporting logs and telemetry <span class="badge badge-existing">Existing</span></dt>
+            <dd>Send agent activity to OpenTelemetry collectors, log aggregators, or custom backends for audit trails and production debugging.</dd>
+
+            <dt>Protecting sensitive data <span class="badge badge-new">Net-new</span></dt>
+            <dd>Scrub credentials, PII, and secrets from logs, session transcripts, and tool inputs before they reach storage or third-party systems.</dd>
+
+            <dt>Identifying users <span class="badge badge-new">Net-new</span></dt>
+            <dd>Associate agent sessions with specific end-users for audit trails, per-user rate limiting, cost attribution, and compliance requirements.</dd>
+          </dl>
+        </div>
+
+        <!-- TypeScript reference -->
+        <div class="nav-section">
+          <p class="nav-section-title">TypeScript SDK reference <span class="badge badge-auto" style="position:relative;top:-1px">Autogenerated replacement planned</span></p>
+          <p class="nav-ref-note">Individual pages are stubs pending autogenerated replacement. Pages in this section:</p>
+          <ul class="nav-ref-pages">
+            <li>Quickstart</li>
+            <li>Installation</li>
+            <li>Compilation</li>
+            <li>The query function</li>
+            <li>Other functions</li>
+            <li>Types (function, message, hook, tool input/output, permission, other)</li>
+            <li>Hooks</li>
+            <li>Sandbox</li>
+            <li>Troubleshooting &rsaquo; Handling slow or stalled responses <span class="badge badge-new">Net-new</span> — How to detect when a streaming query has stalled, set timeouts on individual <code>query()</code> calls, and implement retry logic for responses that never complete.</li>
+          </ul>
+        </div>
+
+        <!-- Python reference -->
+        <div class="nav-section">
+          <p class="nav-section-title">Python SDK reference <span class="badge badge-auto" style="position:relative;top:-1px">Autogenerated replacement planned</span></p>
+          <p class="nav-ref-note">Individual pages are stubs pending autogenerated replacement. Pages in this section:</p>
+          <ul class="nav-ref-pages">
+            <li>Quickstart</li>
+            <li>Installation</li>
+            <li>The query function</li>
+            <li>The <code>ClaudeSDKClient</code> class</li>
+            <li>Other functions</li>
+            <li>Types (function, message, hook, tool input/output, permission, other)</li>
+            <li>Hooks</li>
+            <li>Sandbox</li>
+            <li>Troubleshooting &rsaquo; Handling slow or stalled responses <span class="badge badge-new">Net-new</span> — How to detect when an async generator has stalled, set timeouts on <code>query()</code> calls, and implement retry logic for responses that never complete.</li>
+          </ul>
+        </div>
+
       </div>
 
       <h3 id="a1-principles">Principles</h3>
