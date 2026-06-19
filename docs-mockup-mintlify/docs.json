@@ -146,13 +146,63 @@
           {
             "group": "TypeScript SDK reference",
             "pages": [
-              "typescript-reference/index"
+              "typescript-reference/index",
+              "typescript-reference/ts-quickstart",
+              "typescript-reference/ts-installation",
+              "typescript-reference/ts-compilation",
+              "typescript-reference/ts-query-function",
+              "typescript-reference/ts-other-functions",
+              "typescript-reference/ts-hooks",
+              "typescript-reference/ts-sandbox",
+              {
+                "group": "Types",
+                "pages": [
+                  "typescript-reference/types/function-types",
+                  "typescript-reference/types/message-types",
+                  "typescript-reference/types/hook-types",
+                  "typescript-reference/types/tool-input-types",
+                  "typescript-reference/types/tool-output-types",
+                  "typescript-reference/types/permission-types",
+                  "typescript-reference/types/other-types"
+                ]
+              },
+              {
+                "group": "Troubleshooting",
+                "pages": [
+                  "typescript-reference/troubleshooting/handling-slow-responses"
+                ]
+              }
             ]
           },
           {
             "group": "Python SDK reference",
             "pages": [
-              "python-reference/index"
+              "python-reference/index",
+              "python-reference/py-quickstart",
+              "python-reference/py-installation",
+              "python-reference/py-client-class",
+              "python-reference/py-query-function",
+              "python-reference/py-other-functions",
+              "python-reference/py-hooks",
+              "python-reference/py-sandbox",
+              {
+                "group": "Types",
+                "pages": [
+                  "python-reference/types/py-function-types",
+                  "python-reference/types/py-message-types",
+                  "python-reference/types/py-hook-types",
+                  "python-reference/types/py-tool-input-types",
+                  "python-reference/types/py-tool-output-types",
+                  "python-reference/types/py-permission-types",
+                  "python-reference/types/py-other-types"
+                ]
+              },
+              {
+                "group": "Troubleshooting",
+                "pages": [
+                  "python-reference/troubleshooting/py-handling-slow-responses"
+                ]
+              }
             ]
           }
         ]
