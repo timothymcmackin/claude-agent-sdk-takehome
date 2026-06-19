@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Agent SDK — Proposed Documentation Structure</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #1e293b;
+      background: #e8edf5;
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* ── Header ── */
+    header {
+      margin-bottom: 1.75rem;
+      background: #fff;
+      border: 1px solid #dde3ec;
+      border-radius: 8px;
+      padding: 1.5rem 1.75rem;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.2rem;
+      color: #0f172a;
+    }
+
+    header .subtitle {
+      color: #64748b;
+      margin: 0 0 1.1rem;
+      font-size: 0.9rem;
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .legend {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .stats {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      border-left: 1px solid #e2e8f0;
+      padding-left: 1.5rem;
+    }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-block;
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    .badge.net-new  { background: #4f46e5; color: #fff; }
+    .badge.existing { background: #64748b; color: #fff; }
+
+    /* ── Section <details> ── */
+    details.section {
+      margin-bottom: 0.55rem;
+      border: 1px solid #dde3ec;
+      border-left: 3px solid #4f46e5;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    details.section > summary {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+      color: #1e293b;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    details.section:not([open]) > summary {
+      border-bottom: none;
+    }
+
+    details.section > summary::-webkit-details-marker { display: none; }
+
+    .section-num {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #a5b4c8;
+      min-width: 1.5rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .section-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+      flex: 1;
+      color: #0f172a;
+    }
+
+    .section-count {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    .chevron {
+      font-size: 0.6rem;
+      color: #4f46e5;
+      transition: transform 0.15s;
+      flex-shrink: 0;
+    }
+
+    details.section[open] .chevron { transform: rotate(90deg); }
+
+    /* ── Tree ── */
+    .section-body {
+      padding: 0.75rem 1.25rem 0.35rem 1.25rem;
+    }
+
+    .tree {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: relative;
+    }
+
+    /* Vertical connecting line */
+    .tree::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 1px;
+      height: calc(100% - 28px);
+      background: #dde3ec;
+    }
+
+    /* ── Page item — two-column grid ── */
+    .tree .page-item {
+      position: relative;
+      padding-left: 1.5rem;
+      padding-bottom: 0.6rem;
+      display: grid;
+      grid-template-columns: 265px 1fr;
+      column-gap: 1.5rem;
+      align-items: start;
+    }
+
+    /* Horizontal branch */
+    .tree .page-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 1rem;
+      height: 1px;
+      background: #dde3ec;
+    }
+
+    /* Grid placements */
+    .page-item > .page-header {
+      grid-column: 1;
+      grid-row: 1;
+      padding-right: 1rem;
+      border-right: 1px solid #e8edf3;
+    }
+
+    .page-item > .description {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0;
+    }
+
+    .page-item > .was {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .page-item > .subtree {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    /* ── Second-level tree (SDK reference sub-pages) ── */
+    .subtree {
+      list-style: none;
+      padding: 0;
+      margin: 0.3rem 0 0 0;
+      position: relative;
+    }
+
+    .subtree::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 1px;
+      height: calc(100% - 20px);
+      background: #eff2f7;
+    }
+
+    .subtree .sub-item {
+      position: relative;
+      padding-left: 1.2rem;
+      padding-bottom: 0.35rem;
+      font-size: 0.83rem;
+      color: #64748b;
+    }
+
+    .subtree .sub-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 0.85rem;
+      height: 1px;
+      background: #eff2f7;
+    }
+
+    /* ── Page entry ── */
+    .page-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+      min-width: 0;
+    }
+
+    .page-title {
+      font-weight: 500;
+      font-size: 0.875rem;
+      color: #4338ca;
+      line-height: 1.4;
+    }
+
+    /* Small document icon before each page title */
+    .page-title::before {
+      content: '';
+      display: inline-block;
+      width: 9px;
+      height: 12px;
+      background: #c7d2fe;
+      border-radius: 1px 3px 3px 1px;
+      margin-right: 5px;
+      vertical-align: text-bottom;
+    }
+
+    /* Dotted leader no longer needed with grid layout */
+    .leader { display: none; }
+
+    .description {
+      margin: 0;
+      color: #64748b;
+      font-size: 0.845rem;
+      line-height: 1.5;
+    }
+
+    .was {
+      margin: 0.15rem 0 0;
+      font-size: 0.775rem;
+      color: #94a3b8;
+    }
+
+    .was code {
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.74rem;
+      background: #f1f5f9;
+      padding: 0 4px;
+      border-radius: 3px;
+      color: #64748b;
+    }
+
+    /* ── Section note (Section 7) ── */
+    .section-note {
+      font-size: 0.82rem;
+      color: #64748b;
+      margin: 0 0 0.75rem;
+      padding: 0.5rem 0.8rem;
+      background: #f8fafc;
+      border-left: 3px solid #e2e8f0;
+      border-radius: 0 4px 4px 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>Claude Agent SDK — Proposed Documentation Structure</h1>
+    <p class="subtitle">Task-based reorganization for enterprise developers</p>
+    <div class="meta">
+      <div class="legend">
+        <div class="legend-item">
+          <span class="badge net-new">Net-new</span>
+          <span>New content to write</span>
+        </div>
+        <div class="legend-item">
+          <span class="badge existing">Existing</span>
+          <span>Maps to a current page</span>
+        </div>
+      </div>
+      <div class="stats">~47 pages &nbsp;·&nbsp; 14 net-new &nbsp;·&nbsp; 33 existing</div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 1 — Agent SDK
+  ══════════════════════════════════════════ -->
+  <details class="section s1">
+    <summary>
+      <span class="section-num">01</span>
+      <span class="section-name">Agent SDK</span>
+      <span class="section-count">6 pages</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Overview</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">What the Agent SDK is, when to use it over the Claude API or interactive Claude Code, and what you can build with it. Introduces the core model: your code drives Claude as a subprocess.</p>
+          <p class="was">↩ was: <code>Overview</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Quickstart</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Get a working agent in minutes using a realistic enterprise task — finding and fixing a failing test across a codebase. Covers installation, authentication, and your first query.</p>
+          <p class="was">↩ was: <code>Quickstart</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Compatible Claude Code features</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Which Claude Code features — project instructions, skills, hooks, slash commands — are available when running through the SDK, which require extra setup, and which are not programmatically accessible.</p>
+          <p class="was">↩ was: <code>Use Claude Code features in the SDK</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Message lifecycle</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">What happens during a single <code style="font-size:0.85em;background:#f1f5f9;padding:0 4px;border-radius:3px;">query()</code> call — from request formation through tool turns and approval cycles to the final response. Helps readers reason about latency, token costs, and where to hook in.</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Context window</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">How the agent manages context across tool turns, how long sessions affect the context window, when content gets truncated, and how to fork or reset to stay within limits.</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Converting Claude Code workflows to agent SDK workflows</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">For developers who already use Claude Code interactively and want to automate those same workflows. Maps common CLI patterns to SDK calls.</p>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2 — Setting permissions
+  ══════════════════════════════════════════ -->
+  <details class="section s2">
+    <summary>
+      <span class="section-num">02</span>
+      <span class="section-name">Setting permissions</span>
+      <span class="section-count">4 pages</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Setting permission modes</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">How to configure what tools the agent can use without prompting — allow-all, deny-all, and rule-based modes. Covers tradeoffs between full autonomy and human-in-the-loop control.</p>
+          <p class="was">↩ was: <code>Configure permissions</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Intercepting behavior with hooks</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Run your own code before and after tool calls to validate inputs, enforce business rules, log decisions, or block specific operations.</p>
+          <p class="was">↩ was: <code>Intercept and control agent behavior with hooks</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Running tools in the sandbox</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">OS-level filesystem and network isolation for Bash commands. Configure which paths and domains agent-spawned subprocesses can reach.</p>
+          <p class="was">↩ was: <code>Configure the sandboxed Bash tool</code> (main docs, not currently in agent-sdk nav)</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Checkpointing and rewinding file changes</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Snapshot the filesystem before risky operations and restore to a known-good state when something goes wrong.</p>
+          <p class="was">↩ was: <code>Rewind file changes with checkpointing</code></p>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 3 — Sending requests
+  ══════════════════════════════════════════ -->
+  <details class="section s3">
+    <summary>
+      <span class="section-num">03</span>
+      <span class="section-name">Sending requests</span>
+      <span class="section-count">6 pages</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Streaming queries</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">The primary way to send requests — open a streaming connection that delivers messages as the agent works. Covers long-running tasks, multi-turn conversations, and image input.</p>
+          <p class="was">↩ was: <code>Streaming Input</code> (split)</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Sending individual queries</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">One-shot request mode for simple, synchronous tasks where real-time output isn't needed. Trade streaming flexibility for simpler code.</p>
+          <p class="was">↩ was: <code>Streaming Input</code> (split)</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Using the client class</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">How to create and reuse a <code style="font-size:0.85em;background:#f1f5f9;padding:0 4px;border-radius:3px;">ClaudeSDKClient</code> for multiple queries with shared configuration and session state, rather than calling <code style="font-size:0.85em;background:#f1f5f9;padding:0 4px;border-radius:3px;">query()</code> each time.</p>
+          <p class="was">↩ was: TypeScript / Python SDK references (promoted to own page)</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Spawning subagents</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Delegate work to specialized sub-agents from within your main agent loop — the Agent tool, prompt construction, and collecting results.</p>
+          <p class="was">↩ was: <code>Subagents in the SDK</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Setting custom prompts</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">How to set the system prompt, inject context mid-session, and shape how Claude interprets its role in your application.</p>
+          <p class="was">↩ was: <code>Modifying system prompts</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Changing models</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">How to target a specific Claude model version per query, and when to use different models for different agent roles — a fast model for subagents, a more capable model for planning.</p>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 4 — Receiving responses
+  ══════════════════════════════════════════ -->
+  <details class="section s4">
+    <summary>
+      <span class="section-num">04</span>
+      <span class="section-name">Receiving responses</span>
+      <span class="section-count">6 pages</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Approval requests</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Handle permission prompts programmatically — approve, deny, or route to an end user when the agent wants to run a sensitive command.</p>
+          <p class="was">↩ was: <code>Handle approvals and user input</code> (split)</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">User questions</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">How the agent surfaces clarifying questions during a task and how to respond with automated answers or route to a real user.</p>
+          <p class="was">↩ was: <code>Handle approvals and user input</code> (split)</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Tracking and displaying Todo lists</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">How to read todo update events from the response stream, track agent progress in your UI, and write to the todo list from SDK code.</p>
+          <p class="was">↩ was: <code>Todo Lists</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Streaming output</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Consume the agent's output in real time — text deltas, tool-call events, thinking steps — and display them in a UI.</p>
+          <p class="was">↩ was: <code>Stream responses in real-time</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Structured output</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Get the agent to return JSON or typed data, validate against a schema, and retry on malformed responses.</p>
+          <p class="was">↩ was: <code>Get structured output from agents</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Error handling and retry</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">What happens when Claude errors, times out, or returns an unexpected response. Covers retry strategies, stall detection, and graceful degradation in production.</p>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 5 — Persisting sessions
+  ══════════════════════════════════════════ -->
+  <details class="section s5">
+    <summary>
+      <span class="section-num">05</span>
+      <span class="section-name">Persisting sessions</span>
+      <span class="section-count">4 pages</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Saving and restoring sessions</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Serialize a session after a query ends and resume, continue, or fork it later — preserving conversation history and tool state.</p>
+          <p class="was">↩ was: <code>Work with sessions</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Saving sessions to external storage</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Persist session transcripts to a database or object store so sessions survive process restarts and can be shared across deployments.</p>
+          <p class="was">↩ was: <code>Persist sessions to external storage</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Sharing sessions between hosts</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">Hand a session from one server instance to another — useful for load balancing, failover, and multi-region deployments.</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Storing subagent sessions</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">Manage session state for subagents separately from the parent — when to isolate context, when to share it, and how to resume subagent sessions independently.</p>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 6 — Extending the SDK with custom tools
+  ══════════════════════════════════════════ -->
+  <details class="section s6">
+    <summary>
+      <span class="section-num">06</span>
+      <span class="section-name">Extending the SDK with custom tools</span>
+      <span class="section-count">8 pages</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Skills</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Package prompts, tools, and configuration as reusable skills that can be shared and loaded across agents and projects.</p>
+          <p class="was">↩ was: <code>Agent Skills in the SDK</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Custom tools</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Define tools in your own code that the agent can call — input/output types, execution handlers, async patterns, and error reporting.</p>
+          <p class="was">↩ was: <code>Give Claude custom tools</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Custom slash commands</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Register SDK-side slash commands that users or calling code can invoke during a session to trigger predefined actions.</p>
+          <p class="was">↩ was: <code>Slash Commands in the SDK</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">External MCP servers</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Connect the agent to tools hosted in external MCP servers over network or stdio transport.</p>
+          <p class="was">↩ was: <code>Connect to external tools with MCP</code> (split)</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Embedded MCP servers</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">Bundle an MCP server inside your application process so tools run in-process without external dependencies or network calls.</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Plugins</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Extend the SDK with plugins that add behavior across all sessions — hook into the agent loop, register tools globally, or modify prompts.</p>
+          <p class="was">↩ was: <code>Plugins in the SDK</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Tool scaling</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">When the tool list grows too large for the context window, use tool search to surface only relevant tools per turn.</p>
+          <p class="was">↩ was: <code>Scale to many tools with tool search</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Troubleshooting custom tools</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">Diagnose common failures — tool registration errors, input schema validation issues, handler exceptions, and timeout behavior.</p>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 7 — Bundling the SDK in hosted applications
+  ══════════════════════════════════════════ -->
+  <details class="section s7">
+    <summary>
+      <span class="section-num">07</span>
+      <span class="section-name">Bundling the SDK in hosted applications</span>
+      <span class="section-count">5 pages</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <p class="section-note">These five pages consolidate and reorganize the existing <code>Hosting the Agent SDK</code> and <code>Securely deploying AI agents</code> pages. The current pages conflate infrastructure setup, security hardening, and scaling; the new structure separates them by task.</p>
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Hosting the SDK in production</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">The subprocess model, what state lives on disk and why it matters, session patterns (ephemeral, long-running, hybrid), multi-tenant isolation, and resource sizing.</p>
+          <p class="was">↩ was: <code>Hosting the Agent SDK</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Running agents in CI/CD pipelines</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">How to run agents as part of automated pipelines — code review, test generation, release notes — including ephemeral container patterns, parallelism, and cost control.</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Testing and evaluating applications</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">How to validate agent behavior before deployment — test harnesses, evaluation strategies, and how to assert on what the agent did and didn't do.</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Containerizing applications</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Docker and Kubernetes setup for agent workloads — hardened container flags, gVisor for stronger isolation, cloud sandbox providers, and resource limits.</p>
+          <p class="was">↩ was: <code>Securely deploying AI agents</code> (partial)</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Managing credentials securely</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">The proxy pattern for keeping API keys outside the agent boundary, configuring Claude Code to use a proxy, and TLS-terminating proxies for tool credentials.</p>
+          <p class="was">↩ was: <code>Securely deploying AI agents</code> (partial)</p>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 8 — Auditing usage
+  ══════════════════════════════════════════ -->
+  <details class="section s8">
+    <summary>
+      <span class="section-num">08</span>
+      <span class="section-name">Auditing usage</span>
+      <span class="section-count">4 pages</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Tracking cost</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Monitor token usage and API costs per session, per user, or across a deployment. Set budgets and surface alerts.</p>
+          <p class="was">↩ was: <code>Track cost and usage</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Exporting logs and telemetry</span>
+            <span class="leader"></span>
+            <span class="badge existing">Existing</span>
+          </div>
+          <p class="description">Send agent activity to OpenTelemetry collectors, log aggregators, or custom backends for audit trails and production debugging.</p>
+          <p class="was">↩ was: <code>Observability with OpenTelemetry</code></p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Protecting sensitive data</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">Scrub credentials, PII, and secrets from logs, session transcripts, and tool inputs before they reach storage or third-party systems.</p>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header">
+            <span class="page-title">Identifying users</span>
+            <span class="leader"></span>
+            <span class="badge net-new">Net-new</span>
+          </div>
+          <p class="description">Associate agent sessions with specific end-users for audit trails, per-user rate limiting, cost attribution, and compliance requirements.</p>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 9 — TypeScript SDK reference
+  ══════════════════════════════════════════ -->
+  <details class="section s9">
+    <summary>
+      <span class="section-num">09</span>
+      <span class="section-name">TypeScript SDK reference</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Quickstart</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Installation</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Compilation</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">The query function</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Other functions</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Types</span></div>
+          <ul class="subtree">
+            <li class="sub-item">Function input and output types</li>
+            <li class="sub-item">Message types</li>
+            <li class="sub-item">Hook types</li>
+            <li class="sub-item">Tool input types</li>
+            <li class="sub-item">Tool output types</li>
+            <li class="sub-item">Permission types</li>
+            <li class="sub-item">Other types</li>
+          </ul>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Hooks</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Sandbox</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Troubleshooting</span></div>
+          <ul class="subtree">
+            <li class="sub-item">
+              Handling slow or stalled responses
+              &nbsp;<span class="badge net-new" style="font-size:0.62rem;padding:1px 6px;">Net-new</span>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 10 — Python SDK reference
+  ══════════════════════════════════════════ -->
+  <details class="section s10">
+    <summary>
+      <span class="section-num">10</span>
+      <span class="section-name">Python SDK reference</span>
+      <span class="chevron">▸</span>
+    </summary>
+    <div class="section-body">
+      <ul class="tree">
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Quickstart</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Installation</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">The query function</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">The ClaudeSDKClient class</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Other functions</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Types</span></div>
+          <ul class="subtree">
+            <li class="sub-item">Function input and output types</li>
+            <li class="sub-item">Message types</li>
+            <li class="sub-item">Hook types</li>
+            <li class="sub-item">Tool input types</li>
+            <li class="sub-item">Tool output types</li>
+            <li class="sub-item">Permission types</li>
+            <li class="sub-item">Other types</li>
+          </ul>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Hooks</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Sandbox</span></div>
+        </li>
+
+        <li class="page-item">
+          <div class="page-header"><span class="page-title">Troubleshooting</span></div>
+          <ul class="subtree">
+            <li class="sub-item">
+              Handling slow or stalled responses
+              &nbsp;<span class="badge net-new" style="font-size:0.62rem;padding:1px 6px;">Net-new</span>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </details>
+
+</div>
+</body>
+</html>
