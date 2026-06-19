@@ -1,0 +1,236 @@
+/* Claude Code Agent SDK docs theme approximation */
+
+:root {
+  /* Anthropic coral — primary accent */
+  --ifm-color-primary: #CC785C;
+  --ifm-color-primary-dark: #b96b52;
+  --ifm-color-primary-darker: #ae6449;
+  --ifm-color-primary-darkest: #8e513c;
+  --ifm-color-primary-light: #d18566;
+  --ifm-color-primary-lighter: #d48d6f;
+  --ifm-color-primary-lightest: #dcaa92;
+
+  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+  --ifm-heading-font-weight: 600;
+  --ifm-code-font-size: 87.5%;
+  --ifm-global-radius: 6px;
+  --ifm-navbar-height: 56px;
+
+  /* Sidebar */
+  --ifm-sidebar-width: 288px;
+  --ifm-menu-color: #374151;
+  --ifm-menu-color-background-active: rgba(204, 120, 92, 0.08);
+  --ifm-menu-color-background-hover: #f3f4f6;
+  --ifm-toc-border-color: #e5e7eb;
+
+  /* Content */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f9fafb;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #e09275;
+  --ifm-color-primary-dark: #d47d5d;
+  --ifm-color-primary-darker: #ce7554;
+  --ifm-color-primary-darkest: #b85d3f;
+  --ifm-color-primary-light: #e5a68d;
+  --ifm-color-primary-lighter: #e8ae97;
+  --ifm-color-primary-lightest: #f0c9b8;
+  --ifm-background-color: #0f172a;
+  --ifm-background-surface-color: #1e293b;
+  --ifm-menu-color: #cbd5e1;
+  --ifm-menu-color-background-hover: rgba(255,255,255,0.05);
+  --ifm-toc-border-color: #334155;
+}
+
+/* ── Navbar (dark band) ── */
+.navbar--dark {
+  --ifm-navbar-background-color: #111827;
+  --ifm-navbar-link-color: #e5e7eb;
+  --ifm-navbar-link-hover-color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar__title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.navbar__item--active .navbar__link {
+  color: #CC785C;
+}
+
+/* ── Sidebar ── */
+.theme-doc-sidebar-container {
+  border-right: 1px solid #e5e7eb !important;
+}
+
+[data-theme='dark'] .theme-doc-sidebar-container {
+  border-right-color: #1e293b !important;
+}
+
+/* Category group header */
+.menu__list-item-collapsible > .menu__link {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #9ca3af;
+  padding: 0.5rem 0.75rem 0.25rem;
+}
+
+.menu__list-item-collapsible > .menu__link:hover {
+  background: transparent;
+  color: #6b7280;
+}
+
+[data-theme='dark'] .menu__list-item-collapsible > .menu__link {
+  color: #64748b;
+}
+
+/* Caret icon on categories */
+.menu__caret::before,
+.menu__link--sublist-caret::after {
+  background-size: 0.9rem;
+  opacity: 0.5;
+}
+
+/* Page links */
+.menu__link:not(.menu__list-item-collapsible .menu__link) {
+  font-size: 0.875rem;
+  color: #374151;
+  padding: 0.3rem 0.75rem 0.3rem 0.75rem;
+  border-radius: 5px;
+  line-height: 1.4;
+}
+
+.menu__link:not(.menu__list-item-collapsible .menu__link):hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.menu__link--active:not(.menu__list-item-collapsible .menu__link) {
+  color: #CC785C !important;
+  font-weight: 600;
+  background: rgba(204, 120, 92, 0.08) !important;
+}
+
+[data-theme='dark'] .menu__link:not(.menu__list-item-collapsible .menu__link) {
+  color: #cbd5e1;
+}
+
+[data-theme='dark'] .menu__link--active:not(.menu__list-item-collapsible .menu__link) {
+  color: #e09275 !important;
+  background: rgba(224, 146, 117, 0.12) !important;
+}
+
+/* Nested sub-items (second level) */
+.menu__list .menu__list .menu__link {
+  font-size: 0.845rem;
+  padding-left: 1.25rem;
+}
+
+/* ── Status badges ── */
+.status-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 1.25rem;
+}
+
+.status-new {
+  background: #ede9fe;
+  color: #5b21b6;
+  border: 1px solid #c4b5fd;
+}
+
+.status-existing {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+[data-theme='dark'] .status-new {
+  background: rgba(109, 40, 217, 0.2);
+  color: #c4b5fd;
+  border-color: rgba(167, 139, 250, 0.3);
+}
+
+[data-theme='dark'] .status-existing {
+  background: rgba(71, 85, 105, 0.2);
+  color: #94a3b8;
+  border-color: rgba(100, 116, 139, 0.3);
+}
+
+/* ── Admonitions — override tip/note for status info ── */
+.admonition.alert--success {
+  --ifm-alert-background-color: #ede9fe;
+  --ifm-alert-border-color: #7c3aed;
+  --ifm-alert-color: #5b21b6;
+}
+
+.admonition.alert--info {
+  --ifm-alert-background-color: #f0f9ff;
+  --ifm-alert-border-color: #0284c7;
+  --ifm-alert-color: #0369a1;
+}
+
+/* ── Content area ── */
+article header h1 {
+  font-size: 1.875rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.markdown p {
+  color: #374151;
+  line-height: 1.7;
+}
+
+[data-theme='dark'] .markdown p {
+  color: #cbd5e1;
+}
+
+.markdown code {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-size: 0.875em;
+}
+
+[data-theme='dark'] .markdown code {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+/* Breadcrumbs */
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: #6b7280;
+}
+
+/* Sidebar section spacing */
+.menu__list > .menu__list-item {
+  margin-top: 0.1rem;
+}
+
+.menu__list > .menu__list-item + .menu__list-item {
+  margin-top: 0.35rem;
+}
+
+/* Remove default doc footer nav if desired */
+.pagination-nav {
+  margin-top: 3rem;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.5rem;
+}
+
+[data-theme='dark'] .pagination-nav {
+  border-top-color: #1e293b;
+}
