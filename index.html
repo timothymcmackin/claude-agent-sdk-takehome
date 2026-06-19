@@ -3,9 +3,740 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World</title>
+  <title>Agent SDK Docs Exercise — Tim McMackin</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --text: #1a1a1a;
+      --muted: #555;
+      --border: #ddd;
+      --prompt-bg: #f5f5f0;
+      --prompt-border: #bbb;
+      --link: #1a56a8;
+      --toc-width: 220px;
+      --content-max: 740px;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text);
+      background: #fff;
+    }
+
+    /* ── Layout ── */
+    .page {
+      display: flex;
+      gap: 48px;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+
+    /* ── TOC ── */
+    nav.toc {
+      flex: 0 0 var(--toc-width);
+      position: sticky;
+      top: 32px;
+      align-self: flex-start;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 13px;
+    }
+
+    nav.toc h2 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    nav.toc ol {
+      list-style: none;
+      border-left: 2px solid var(--border);
+      padding-left: 14px;
+    }
+
+    nav.toc li {
+      margin-bottom: 8px;
+    }
+
+    nav.toc a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    nav.toc a:hover {
+      color: var(--link);
+    }
+
+    nav.toc .toc-sub {
+      margin-top: 4px;
+      padding-left: 12px;
+      border-left: none;
+    }
+
+    nav.toc .toc-sub li {
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    /* ── Main content ── */
+    main {
+      flex: 1 1 auto;
+      max-width: var(--content-max);
+      min-width: 0;
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 24px;
+      margin-bottom: 40px;
+    }
+
+    .doc-header h1 {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .doc-header .byline {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .doc-header .byline a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .doc-header .intro {
+      margin-top: 16px;
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    /* ── Section headings ── */
+    .section {
+      margin-bottom: 56px;
+    }
+
+    .section-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    h2.section-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.25;
+    }
+
+    h3 {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      margin: 28px 0 10px;
+    }
+
+    /* ── Rubric prompt box ── */
+    .prompt {
+      background: var(--prompt-bg);
+      border-left: 3px solid var(--prompt-border);
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .prompt-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .prompt p {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #333;
+    }
+
+    /* ── Body text ── */
+    p {
+      margin-bottom: 16px;
+    }
+
+    a {
+      color: var(--link);
+    }
+
+    /* ── Lists ── */
+    ul, ol {
+      padding-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* ── Nav tree ── */
+    .nav-tree {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+
+    .nav-tree > ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .nav-tree > ul > li {
+      font-weight: 700;
+      margin-bottom: 10px;
+      margin-top: 14px;
+    }
+
+    .nav-tree > ul > li:first-child {
+      margin-top: 0;
+    }
+
+    .nav-tree ul ul {
+      font-weight: 400;
+      list-style: none;
+      padding-left: 18px;
+      margin-top: 4px;
+      margin-bottom: 0;
+      border-left: 1px solid var(--border);
+    }
+
+    .nav-tree ul ul li {
+      margin-bottom: 3px;
+    }
+
+    .nav-tree ul ul ul {
+      padding-left: 16px;
+    }
+
+    /* ── Principles list ── */
+    .principles {
+      padding-left: 20px;
+    }
+
+    .principles li {
+      margin-bottom: 10px;
+    }
+
+    /* ── Cookbook outline ── */
+    .cookbook-outline {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
+    }
+
+    .cookbook-outline > ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .cookbook-outline > ul > li {
+      font-weight: 600;
+      margin-bottom: 10px;
+      margin-top: 12px;
+    }
+
+    .cookbook-outline ul ul {
+      font-weight: 400;
+      list-style: disc;
+      padding-left: 22px;
+      margin-top: 5px;
+      margin-bottom: 0;
+    }
+
+    .cookbook-outline ul ul li {
+      margin-bottom: 4px;
+    }
+
+    /* ── Roles table ── */
+    .roles {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .roles th {
+      text-align: left;
+      font-weight: 700;
+      padding: 8px 14px;
+      background: #f0f0f0;
+      border: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .roles td {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .roles tr:nth-child(even) td {
+      background: #fafafa;
+    }
+
+    /* ── Notes section ── */
+    .notes-list {
+      list-style: disc;
+      padding-left: 20px;
+    }
+
+    .notes-list li {
+      margin-bottom: 8px;
+    }
+
+    /* ── Divider ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      .page { flex-direction: column; gap: 0; padding: 24px 16px 64px; }
+      nav.toc { position: static; margin-bottom: 32px; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello World</h1>
+<div class="page">
+
+  <!-- Table of Contents -->
+  <nav class="toc" aria-label="Page contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#a1">A1 — Navigation tree</a>
+        <ol class="toc-sub">
+          <li><a href="#a1-tree">Proposed tree</a></li>
+          <li><a href="#a1-principles">Principles</a></li>
+        </ol>
+      </li>
+      <li><a href="#a2">A2 — Diagnosis</a>
+        <ol class="toc-sub">
+          <li><a href="#a2-taskbased">Task-based docs</a></li>
+          <li><a href="#a2-enterprise">Enterprise use cases</a></li>
+          <li><a href="#a2-roles">User &amp; agent roles</a></li>
+        </ol>
+      </li>
+      <li><a href="#a3">A3 — Week one ship</a></li>
+      <li><a href="#a4">A4 — Cookbook outline</a></li>
+      <li><a href="#ai-usage">AI usage notes</a></li>
+    </ol>
+  </nav>
+
+  <!-- Main content -->
+  <main>
+
+    <header class="doc-header">
+      <h1>Agent SDK Docs Exercise</h1>
+      <p class="byline">
+        Tim McMackin &nbsp;·&nbsp;
+        <a href="https://timothymcmack.in" target="_blank" rel="noopener">timothymcmack.in</a> &nbsp;·&nbsp;
+        <a href="mailto:timothymcmackin@gmail.com">timothymcmackin@gmail.com</a>
+      </p>
+      <p class="intro">
+        My response to the take-home work for the Claude Code Agent SDK contract position.
+        Part A covers the restructure plan; Part B is in a separate file.
+      </p>
+    </header>
+
+    <!-- ── A1 ── -->
+    <section class="section" id="a1">
+      <p class="section-label">Part A1</p>
+      <h2 class="section-title">Navigation tree</h2>
+
+      <div class="prompt">
+        <p class="prompt-label">Rubric prompt</p>
+        <p>A proposed navigation tree for the Agent SDK docs set: indented list or boxes, with a short description of what the page would cover and whether it's net-new or existing content.</p>
+      </div>
+
+      <p>
+        One of the great things about static site generators is that it's easy to move things around
+        and show what a new organization would look like, so I went ahead and mocked this site up.
+        It covers the top-level navigation and each page lists a quick summary of what would be in
+        that page and whether it is net-new content or taken from an existing page. (I couldn't get
+        this running on Mintlify in short order, so I borrowed the styling from the existing site
+        and deployed it to Netlify.)
+      </p>
+      <p><a href="https://tpm-claude-code-agent-sdk-mockup.netlify.app/" target="_blank" rel="noopener">tpm-claude-code-agent-sdk-mockup.netlify.app</a></p>
+
+      <h3 id="a1-tree">Proposed navigation</h3>
+
+      <div class="nav-tree">
+        <ul>
+          <li>Agent SDK
+            <ul>
+              <li>Overview</li>
+              <li>Quickstart</li>
+              <li>Compatible Claude Code features</li>
+              <li>Message lifecycle</li>
+              <li>Context window</li>
+              <li>Converting Claude Code workflows to Agent SDK workflows</li>
+            </ul>
+          </li>
+          <li>Setting permissions
+            <ul>
+              <li>Setting permission modes</li>
+              <li>Intercepting behavior with hooks</li>
+              <li>Running tools in the sandbox</li>
+              <li>Checkpointing and rewinding file changes</li>
+            </ul>
+          </li>
+          <li>Sending requests
+            <ul>
+              <li>Streaming queries</li>
+              <li>Sending individual queries</li>
+              <li>Using the client class</li>
+              <li>Spawning subagents</li>
+              <li>Setting custom prompts</li>
+              <li>Changing models</li>
+            </ul>
+          </li>
+          <li>Receiving responses
+            <ul>
+              <li>Approval requests</li>
+              <li>User questions</li>
+              <li>Tracking and displaying todo lists</li>
+              <li>Streaming output</li>
+              <li>Structured output</li>
+              <li>Error handling and retry</li>
+            </ul>
+          </li>
+          <li>Persisting sessions
+            <ul>
+              <li>Saving and restoring sessions</li>
+              <li>Saving sessions to external storage</li>
+              <li>Sharing sessions between hosts</li>
+              <li>Storing subagent sessions</li>
+            </ul>
+          </li>
+          <li>Extending the SDK with custom tools
+            <ul>
+              <li>Skills</li>
+              <li>Custom tools</li>
+              <li>Custom slash commands</li>
+              <li>External MCP servers</li>
+              <li>Embedded MCP servers</li>
+              <li>Plugins</li>
+              <li>Tool scaling</li>
+              <li>Troubleshooting custom tools</li>
+            </ul>
+          </li>
+          <li>Bundling the SDK in hosted applications
+            <ul>
+              <li>Hosting the SDK in production</li>
+              <li>Running agents in CI/CD pipelines</li>
+              <li>Testing and evaluating applications</li>
+              <li>Containerizing applications</li>
+              <li>Managing credentials securely</li>
+            </ul>
+          </li>
+          <li>Auditing usage
+            <ul>
+              <li>Tracking cost</li>
+              <li>Exporting logs and telemetry</li>
+              <li>Protecting sensitive data</li>
+              <li>Identifying users</li>
+            </ul>
+          </li>
+          <li>TypeScript SDK reference
+            <ul>
+              <li>Quickstart</li>
+              <li>Installation</li>
+              <li>Compilation</li>
+              <li>The query function</li>
+              <li>Other functions</li>
+              <li>Types</li>
+              <li>Hooks</li>
+              <li>Sandbox</li>
+              <li>Troubleshooting
+                <ul>
+                  <li>Handling slow or stalled responses</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Python SDK reference
+            <ul>
+              <li><em>Similar structure to TypeScript reference; main addition is the <code>ClaudeSDKClient</code> class.</em></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h3 id="a1-principles">Principles</h3>
+      <p>I used these basic principles to rework the navigation:</p>
+      <ul class="principles">
+        <li>Developer documentation is task-based; docs should tell users and agents how to do things, and titles should relate to tasks that people implementing software with the SDK need to do.</li>
+        <li>Navigation is a bit more important for humans than agents; structure the nav for human eyes and let agents use the docs MCP server to find what they need.</li>
+        <li>Structure docs, examples, and scenarios according to enterprise use cases; start with simple examples but move promptly to examples that take into account the scale of applications we expect customers to create with the SDK. Similarly, when there are options, put the methods that make more sense for enterprise use cases first (for example, streaming queries before individual queries).</li>
+        <li>Separate TypeScript and Python SDK references because users are likely using only one or the other, and they have some structural differences.</li>
+        <li>Make sure that docs for specific user roles are grouped together. For example, the people looking at cost and usage are not the same people controlling agent behavior with hooks and setting permissions, yet they're currently in the same section. In the long term, the SDK reference should be tailored for agents and should not strain the size of their context.</li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <!-- ── A2 ── -->
+    <section class="section" id="a2">
+      <p class="section-label">Part A2</p>
+      <h2 class="section-title">Diagnosis</h2>
+
+      <div class="prompt">
+        <p class="prompt-label">Rubric prompt</p>
+        <p>What you consider to be the top 3 problems with the docs now.</p>
+      </div>
+
+      <h3 id="a2-taskbased">1. Developer documentation should be task-based</h3>
+      <p>
+        The docs need to be task-based, focusing on the tasks that enterprise users need to do while
+        building large-scale applications on the Claude Agent SDK. Concepts like "How the agent loop
+        works" and how context is handled within the SDK are important reference information, but I
+        don't think the high hit count on those pages is enough evidence to keep them at their
+        current prominent level. More thorough task-based information on sending queries and
+        receiving and handling output would reduce the need for developers to refer to how the
+        communication works until they're dealing with problems or technically complex cases.
+      </p>
+      <p>
+        The docs need to be structured around tasks like sending requests to Claude Code, storing
+        and resuming sessions, adding custom tools, and bundling the SDK in hosted applications.
+        Eventually we can document higher-level tasks like managing codebases with the SDK and
+        restructure the information around embedding Claude Code in larger applications. Those
+        high-level tasks will help customers build their own complex agentic applications that use
+        Claude Code as an engine.
+      </p>
+
+      <h3 id="a2-enterprise">2. Docs must focus on enterprise use cases</h3>
+      <p>
+        The examples are often not enterprise use cases. Based on my understanding, the main use
+        case for the Agent SDK is to create an application that manages a codebase with a specific
+        goal and set of custom tools. The simple example in the quickstart is fine, but the examples
+        need to expand quickly to assume the user is building an application to write, test, update,
+        and otherwise manage a codebase over time. For example, we might pick the most common way
+        that applications store sessions (probably in external storage as described in "Persist
+        sessions to external storage") and use that pattern in most examples. It may make examples a
+        bit longer and more complex, but users will be able to bring them into their own code faster.
+      </p>
+
+      <h3 id="a2-roles">3. Docs need to be organized around user and agent roles</h3>
+      <p>
+        Currently, single sections group information that focuses on different user and agent roles.
+        Audit information is in the same section as setting permissions and controlling agent
+        behavior with hooks — information that may be needed by different people. I'd work with
+        product management to confirm the user and agent roles, but in my experience, I see these
+        common enterprise roles:
+      </p>
+
+      <table class="roles">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Doc need</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Decision-makers</td>
+            <td>Information about whether the product can solve their business problem</td>
+          </tr>
+          <tr>
+            <td>Architects</td>
+            <td>Information to plan how the product fits into their tech stack and planned applications</td>
+          </tr>
+          <tr>
+            <td>Implementers</td>
+            <td>Information on developing software functionality like sending queries and handling responses</td>
+          </tr>
+          <tr>
+            <td>Agents</td>
+            <td>Task-based information and reference material about methods, types, and other code details</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        More detailed analysis of page view rates and documentation MCP server usage can also
+        inform this list of main user and agent roles.
+      </p>
+    </section>
+
+    <hr>
+
+    <!-- ── A3 ── -->
+    <section class="section" id="a3">
+      <p class="section-label">Part A3</p>
+      <h2 class="section-title">Week one ship</h2>
+
+      <div class="prompt">
+        <p class="prompt-label">Rubric prompt</p>
+        <p>For your #1 problem: what would you ship in week one to address this, and why that first?</p>
+      </div>
+
+      <h3>Rewrite of the overview page</h3>
+
+      <p>
+        The questions asked to the docs AI assistant suggest that it's not clear what the Agent SDK
+        is intended to do and how it fits into the Claude ecosystem, so that seems to be an urgent
+        need. The overview page receives 24% of all Agent SDK section traffic — the most of any
+        page — making it the highest-leverage single page to fix. My first ship would do two things:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Clear the clutter.</strong> Rewrite the overview page to remove setup instructions
+          (better covered in the quickstart or a separate installation page) and move everything
+          that isn't positioning- or use-case-oriented elsewhere.
+        </li>
+        <li>
+          <strong>Lead with scenarios.</strong> Focus the overview on specific scenarios we expect
+          customers to use the SDK for. Describe it as a codebase manager and custom agent creator,
+          and draw from the examples in the
+          <a href="https://github.com/anthropics/claude-agent-sdk-demos" target="_blank" rel="noopener">claude-agent-sdk-demos</a>
+          repository to show how the SDK can create custom agents, agentic tools, and assistants
+          that help developers work on large, complex codebases.
+        </li>
+      </ul>
+
+      <p>
+        After this change, we should continue to monitor the questions users ask the docs AI
+        assistant and the areas of confusion that surface, such as a user trying to force the SDK
+        to do something it isn't intended to do. In my work at TriliTech, the MCP server logs were
+        tremendously useful for showing what users were actually trying to do with our software,
+        which helped ensure the docs stayed focused on real user perspectives.
+      </p>
+
+      <p>
+        I chose this over the higher-level task of reorganizing the docs because I'd want to spend
+        more time researching with product management before acting on the assumptions I made in
+        the A1 restructure.
+      </p>
+    </section>
+
+    <hr>
+
+    <!-- ── A4 ── -->
+    <section class="section" id="a4">
+      <p class="section-label">Part A4</p>
+      <h2 class="section-title">Cookbook outline</h2>
+
+      <div class="prompt">
+        <p class="prompt-label">Rubric prompt</p>
+        <p>One cookbook outline: the most-needed end-to-end guide for users — title, target reader, and section headings only (no prose/actual building needed, just the scaffolding). The following cookbook and demo collections already exist; your outline doesn't need to duplicate what's there: claude-cookbooks, platform.claude.com/cookbook, claude-agent-sdk-demos.</p>
+      </div>
+
+      <p>
+        The three existing cookbook collections include examples of using custom tools, but I didn't
+        find a cookbook that pulled several related tools together into an embedded MCP server — a
+        full interface that lets an application participate in the complexities of an enterprise
+        codebase, such as complex monorepo CI procedures. An embedded MCP server also demonstrates
+        how the SDK lets you:
+      </p>
+      <ul>
+        <li>Point Claude Code to how certain tasks need to be done rather than relying on it to figure them out</li>
+        <li>Give Claude Code access to specific commands, data, or applications your application uses</li>
+        <li>Build what is essentially a custom agent with specific capabilities, using Claude Code as the engine</li>
+      </ul>
+
+      <p>
+        <strong>Target reader:</strong> CI engineers and software architects who have been using the
+        SDK for small to medium tasks and want to scale its use across a large codebase or share
+        codebase procedures and guidelines across multiple repositories.
+      </p>
+
+      <div class="cookbook-outline">
+        <p style="font-weight:700; font-size:17px; margin: 24px 0 16px;">
+          Providing custom tools as an embedded MCP server
+        </p>
+        <ul>
+          <li>Introduction
+            <ul>
+              <li>Why bundle tools as an embedded MCP server</li>
+              <li>When to use this approach</li>
+              <li>Related documentation: Embedded MCP servers</li>
+            </ul>
+          </li>
+          <li>Setup
+            <ul>
+              <li>Prerequisites</li>
+              <li>Starting from a basic SDK application</li>
+              <li>Connecting to a remote MCP server</li>
+            </ul>
+          </li>
+          <li>Adding custom tools
+            <ul>
+              <li>Map a general instruction to a specific CI workflow (e.g., "Lint the code")</li>
+              <li>Generate and verify test coverage for new code</li>
+              <li>Request user approval before triggering a deployment</li>
+              <li>Return structured data in a specific format</li>
+              <li>Analyze git history and report file changes</li>
+              <li>Restrict a tool to users with specific permissions</li>
+              <li>Pass an API key securely to a tool</li>
+              <li>Run a performance test and compare against a baseline; rewind on regression</li>
+              <li>Start a containerized mock service, run tests, then shut it down</li>
+              <li>Handle tool errors gracefully with retry logic</li>
+            </ul>
+          </li>
+          <li>Summary
+            <ul>
+              <li>When to use (and not use) embedded MCP servers</li>
+              <li>Next steps: Tool scaling for large tool libraries</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ── AI Usage ── -->
+    <section class="section" id="ai-usage">
+      <p class="section-label">Notes</p>
+      <h2 class="section-title">AI usage</h2>
+      <p>I used Claude Code for the following:</p>
+      <ul class="notes-list">
+        <li>Extracting the current navigation into a Markdown file to work with locally</li>
+        <li>Syncing my terminology with the rest of the Claude Code docs (for example, which verb to use when describing spawning agents)</li>
+        <li>Research questions — double-checking my understanding of what I read in the existing docs and clarifying deployment concepts</li>
+        <li>Converting notes from Markdown files and Google Docs into presentation-ready HTML pages</li>
+        <li>Generating a mockup site based on my description of the site navigation and deploying it with Netlify</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
 </body>
 </html>
