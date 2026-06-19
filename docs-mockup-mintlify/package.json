@@ -1,0 +1,11 @@
+{
+  "name": "docs-mockup-mintlify",
+  "private": true,
+  "scripts": {
+    "dev": "mintlify dev",
+    "export": "mintlify export"
+  },
+  "devDependencies": {
+    "mintlify": "latest"
+  }
+}
