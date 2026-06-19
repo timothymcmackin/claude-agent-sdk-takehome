@@ -1,0 +1,174 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Claude Agent SDK",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#D97757",
+    "light": "#E8927A",
+    "dark": "#B85C3F",
+    "background": {
+      "light": "#FFFFFF",
+      "dark": "#0F172A"
+    },
+    "anchors": {
+      "from": "#D97757",
+      "to": "#B85C3F"
+    }
+  },
+  "topbar": {
+    "style": "default"
+  },
+  "sidebar": {
+    "style": "sidebar"
+  },
+  "navigation": [
+    {
+      "group": "Agent SDK",
+      "pages": [
+        "agent-sdk/overview",
+        "agent-sdk/quickstart",
+        "agent-sdk/compatible-features",
+        "agent-sdk/message-lifecycle",
+        "agent-sdk/context-window",
+        "agent-sdk/converting-workflows"
+      ]
+    },
+    {
+      "group": "Setting permissions",
+      "pages": [
+        "setting-permissions/permission-modes",
+        "setting-permissions/hooks",
+        "setting-permissions/sandbox",
+        "setting-permissions/checkpointing"
+      ]
+    },
+    {
+      "group": "Sending requests",
+      "pages": [
+        "sending-requests/streaming-queries",
+        "sending-requests/individual-queries",
+        "sending-requests/client-class",
+        "sending-requests/subagents",
+        "sending-requests/custom-prompts",
+        "sending-requests/changing-models"
+      ]
+    },
+    {
+      "group": "Receiving responses",
+      "pages": [
+        "receiving-responses/approval-requests",
+        "receiving-responses/user-questions",
+        "receiving-responses/todo-lists",
+        "receiving-responses/streaming-output",
+        "receiving-responses/structured-output",
+        "receiving-responses/error-handling"
+      ]
+    },
+    {
+      "group": "Persisting sessions",
+      "pages": [
+        "persisting-sessions/saving-restoring",
+        "persisting-sessions/external-storage",
+        "persisting-sessions/sharing-sessions",
+        "persisting-sessions/subagent-sessions"
+      ]
+    },
+    {
+      "group": "Extending the SDK with custom tools",
+      "pages": [
+        "custom-tools/skills",
+        "custom-tools/custom-tools",
+        "custom-tools/slash-commands",
+        "custom-tools/external-mcp",
+        "custom-tools/embedded-mcp",
+        "custom-tools/plugins",
+        "custom-tools/tool-scaling",
+        "custom-tools/troubleshooting-tools"
+      ]
+    },
+    {
+      "group": "Bundling the SDK in hosted applications",
+      "pages": [
+        "hosted-applications/production",
+        "hosted-applications/cicd-pipelines",
+        "hosted-applications/testing-evaluating",
+        "hosted-applications/containerizing",
+        "hosted-applications/credentials"
+      ]
+    },
+    {
+      "group": "Auditing usage",
+      "pages": [
+        "auditing/tracking-cost",
+        "auditing/logs-telemetry",
+        "auditing/sensitive-data",
+        "auditing/identifying-users"
+      ]
+    },
+    {
+      "group": "TypeScript SDK reference",
+      "pages": [
+        "typescript-reference/ts-quickstart",
+        "typescript-reference/ts-installation",
+        "typescript-reference/ts-compilation",
+        "typescript-reference/ts-query-function",
+        "typescript-reference/ts-other-functions",
+        {
+          "group": "Types",
+          "pages": [
+            "typescript-reference/types/function-types",
+            "typescript-reference/types/message-types",
+            "typescript-reference/types/hook-types",
+            "typescript-reference/types/tool-input-types",
+            "typescript-reference/types/tool-output-types",
+            "typescript-reference/types/permission-types",
+            "typescript-reference/types/other-types"
+          ]
+        },
+        "typescript-reference/ts-hooks",
+        "typescript-reference/ts-sandbox",
+        {
+          "group": "Troubleshooting",
+          "pages": [
+            "typescript-reference/troubleshooting/handling-slow-responses"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Python SDK reference",
+      "pages": [
+        "python-reference/py-quickstart",
+        "python-reference/py-installation",
+        "python-reference/py-query-function",
+        "python-reference/py-client-class",
+        "python-reference/py-other-functions",
+        {
+          "group": "Types",
+          "pages": [
+            "python-reference/types/py-function-types",
+            "python-reference/types/py-message-types",
+            "python-reference/types/py-hook-types",
+            "python-reference/types/py-tool-input-types",
+            "python-reference/types/py-tool-output-types",
+            "python-reference/types/py-permission-types",
+            "python-reference/types/py-other-types"
+          ]
+        },
+        "python-reference/py-hooks",
+        "python-reference/py-sandbox",
+        {
+          "group": "Troubleshooting",
+          "pages": [
+            "python-reference/troubleshooting/py-handling-slow-responses"
+          ]
+        }
+      ]
+    }
+  ],
+  "footerSocials": {}
+}

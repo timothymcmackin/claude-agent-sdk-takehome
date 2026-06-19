@@ -1,0 +1,178 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Claude Code",
+  "colors": {
+    "primary": "#0E0E0E",
+    "light": "#D4A27F",
+    "dark": "#0E0E0E"
+  },
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "font": {
+    "headings": {
+      "family": "Anthropic Sans",
+      "url": "https://fonts.googleapis.com/css2?family=Anthropic+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap"
+    },
+    "body": {
+      "family": "Anthropic Sans",
+      "url": "https://fonts.googleapis.com/css2?family=Anthropic+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap"
+    }
+  },
+  "topbar": {
+    "links": [
+      {
+        "name": "GitHub",
+        "url": "#"
+      }
+    ],
+    "cta": {
+      "name": "Console",
+      "url": "#"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Getting started",
+        "href": "#"
+      },
+      {
+        "tab": "Build with Claude Code",
+        "href": "#"
+      },
+      {
+        "tab": "Administration",
+        "href": "#"
+      },
+      {
+        "tab": "Configuration",
+        "href": "#"
+      },
+      {
+        "tab": "Reference",
+        "href": "#"
+      },
+      {
+        "tab": "Agent SDK",
+        "groups": [
+          {
+            "group": "Agent SDK",
+            "pages": [
+              "agent-sdk/overview",
+              "agent-sdk/quickstart",
+              "agent-sdk/compatible-features",
+              "agent-sdk/message-lifecycle",
+              "agent-sdk/context-window",
+              "agent-sdk/converting-workflows"
+            ]
+          },
+          {
+            "group": "Setting permissions",
+            "pages": [
+              "setting-permissions/permission-modes",
+              "setting-permissions/hooks",
+              "setting-permissions/sandbox",
+              "setting-permissions/checkpointing"
+            ]
+          },
+          {
+            "group": "Sending requests",
+            "pages": [
+              "sending-requests/streaming-queries",
+              "sending-requests/individual-queries",
+              "sending-requests/client-class",
+              "sending-requests/subagents",
+              "sending-requests/custom-prompts",
+              "sending-requests/changing-models"
+            ]
+          },
+          {
+            "group": "Receiving responses",
+            "pages": [
+              "receiving-responses/approval-requests",
+              "receiving-responses/user-questions",
+              "receiving-responses/todo-lists",
+              "receiving-responses/streaming-output",
+              "receiving-responses/structured-output",
+              "receiving-responses/error-handling"
+            ]
+          },
+          {
+            "group": "Persisting sessions",
+            "pages": [
+              "persisting-sessions/saving-restoring",
+              "persisting-sessions/external-storage",
+              "persisting-sessions/sharing-sessions",
+              "persisting-sessions/subagent-sessions"
+            ]
+          },
+          {
+            "group": "Extending the SDK with custom tools",
+            "pages": [
+              "custom-tools/skills",
+              "custom-tools/custom-tools",
+              "custom-tools/slash-commands",
+              "custom-tools/external-mcp",
+              "custom-tools/embedded-mcp",
+              "custom-tools/plugins",
+              "custom-tools/tool-scaling",
+              "custom-tools/troubleshooting-tools"
+            ]
+          },
+          {
+            "group": "Bundling the SDK in hosted applications",
+            "pages": [
+              "hosted-applications/production",
+              "hosted-applications/cicd-pipelines",
+              "hosted-applications/testing-evaluating",
+              "hosted-applications/containerizing",
+              "hosted-applications/credentials"
+            ]
+          },
+          {
+            "group": "Auditing usage",
+            "pages": [
+              "auditing/tracking-cost",
+              "auditing/logs-telemetry",
+              "auditing/sensitive-data",
+              "auditing/identifying-users"
+            ]
+          },
+          {
+            "group": "TypeScript SDK reference",
+            "pages": [
+              "typescript-reference/index"
+            ]
+          },
+          {
+            "group": "Python SDK reference",
+            "pages": [
+              "python-reference/index"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "What's New",
+        "href": "#"
+      },
+      {
+        "tab": "Resources",
+        "href": "#"
+      }
+    ]
+  },
+  "background": {
+    "color": {
+      "light": "#FDFDF7",
+      "dark": "#09090B"
+    }
+  },
+  "footer": {
+    "socials": {}
+  }
+}
