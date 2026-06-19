@@ -146,13 +146,13 @@
           {
             "group": "TypeScript SDK reference",
             "pages": [
-              "typescript-reference/index"
+              "typescript-reference"
             ]
           },
           {
             "group": "Python SDK reference",
             "pages": [
-              "python-reference/index"
+              "python-reference"
             ]
           }
         ]
