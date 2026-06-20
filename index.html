@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent SDK Docs Exercise — Tim McMackin</title>
+  <title>Claude Code Agent SDK Docs Exercise — Tim McMackin</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -173,10 +173,10 @@
     }
 
     .prompt p {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1.55;
-      color: #333;
+      color: #444;
+      font-style: italic;
     }
 
     /* ── Body text ── */
@@ -402,6 +402,33 @@
 
     .nav-ref-pages li { margin-bottom: 4px; }
 
+    /* ── Code blocks ── */
+    pre {
+      background: #f5f5f0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+    }
+
+    pre code {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    .code-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 20px 0 6px;
+    }
+
     /* ── Responsive ── */
     @media (max-width: 720px) {
       .page { flex-direction: column; gap: 0; padding: 24px 16px 64px; }
@@ -431,6 +458,16 @@
       </li>
       <li><a href="#a3">A3 — Week one ship</a></li>
       <li><a href="#a4">A4 — Cookbook outline</a></li>
+      <li><a href="#b">B — Sessions example</a>
+        <ol class="toc-sub">
+          <li><a href="#b-app">About this example</a></li>
+          <li><a href="#b-code">The query() call</a></li>
+          <li><a href="#b-options">Session options</a></li>
+          <li><a href="#b-store">SessionStore</a></li>
+          <li><a href="#b-walkthrough">Example walkthrough</a></li>
+          <li><a href="#b-footnote">Footnotes</a></li>
+        </ol>
+      </li>
       <li><a href="#ai-usage">AI usage notes</a></li>
     </ol>
   </nav>
@@ -442,13 +479,14 @@
       <h1>Agent SDK Docs Exercise</h1>
       <p class="byline">
         Tim McMackin &nbsp;·&nbsp;
-        <a href="https://timothymcmack.in" target="_blank" rel="noopener">timothymcmack.in</a> &nbsp;·&nbsp;
+        <a href="https://timothymcmack.in" target="_blank" rel="noopener">https://timothymcmack.in</a> &nbsp;·&nbsp;
         <a href="mailto:timothymcmackin@gmail.com">timothymcmackin@gmail.com</a>
       </p>
       <p class="intro">
         My response to the take-home work for the Claude Code Agent SDK contract position.
-        Part A covers the restructure plan; Part B is in a separate file.
+        Part A covers the restructure plan and Part B covers the sample application.
       </p>
+      <p class="intro">Source code for this work is at <a href="https://github.com/timothymcmackin/claude-agent-sdk-takehome" target="_blank" rel="noopener">https://github.com/timothymcmackin/claude-agent-sdk-takehome</a>.</p>
     </header>
 
     <!-- ── A1 ── -->
@@ -471,7 +509,21 @@
       </p>
       <p><a href="https://tpm-claude-code-agent-sdk-mockup.netlify.app/" target="_blank" rel="noopener">tpm-claude-code-agent-sdk-mockup.netlify.app</a></p>
 
+      <figure style="margin: 16px 0 24px;">
+        <img src="images/mockup-site-home-page.png" alt="Mockup site home page screenshot"
+             style="width:300px; cursor:zoom-in; display:block; border:1px solid var(--border); border-radius:4px;"
+             onclick="document.getElementById('mockup-lightbox').showModal()">
+      </figure>
+
+      <dialog id="mockup-lightbox" style="padding:0; border:none; background:transparent; max-width:95vw; max-height:95vh;"
+              onclick="this.close()">
+        <img src="images/mockup-site-home-page.png" alt="Mockup site home page screenshot"
+             style="max-width:95vw; max-height:95vh; display:block; border-radius:6px; box-shadow:0 8px 40px rgba(0,0,0,.45); cursor:zoom-out;">
+      </dialog>
+
       <h3 id="a1-tree">Proposed navigation</h3>
+
+      <p>Here is the top-level layout of the new navigation with a quick description of each page:</p>
 
       <div class="nav-sections">
 
@@ -488,10 +540,10 @@
             <dt>Compatible Claude Code features <span class="badge badge-existing">Existing</span></dt>
             <dd>Which Claude Code features — project instructions, skills, hooks, slash commands — are available when running through the SDK, which require extra setup, and which are not programmatically accessible.</dd>
 
-            <dt>Message lifecycle <span class="badge badge-new">Net-new</span></dt>
+            <dt>Message lifecycle <span class="badge badge-existing">Existing</span></dt>
             <dd>What happens during a single <code>query()</code> call — from request formation through tool turns and approval cycles to the final response. Helps readers reason about latency, token costs, and where to hook in.</dd>
 
-            <dt>Context window <span class="badge badge-new">Net-new</span></dt>
+            <dt>Context window <span class="badge badge-existing">Existing</span></dt>
             <dd>How the agent manages context across tool turns, how long sessions affect the context window, when content gets truncated, and how to fork or reset to stay within limits.</dd>
 
             <dt>Converting Claude Code workflows to Agent SDK workflows <span class="badge badge-new">Net-new</span></dt>
@@ -912,18 +964,231 @@
 
     <hr>
 
+    <!-- ── B ── -->
+    <section class="section" id="b">
+      <p class="section-label">Part B</p>
+      <h2 class="section-title">Sample application — Saving sessions to external storage</h2>
+
+      <div class="prompt">
+        <p class="prompt-label">Rubric prompt</p>
+        <p>Build an example you think the page would benefit from: working code in both TypeScript and Python, plus the surrounding prose as it would appear on the page introducing and explaining the example.</p>
+      </div>
+
+      <p>
+        By default, <code>query()</code> stores sessions under <code>CLAUDE_CONFIG_DIR</code>
+        on the local filesystem; this example shows how to move them to an external store using
+        the SDK&rsquo;s <code>SessionStore</code> interface.
+      </p>
+
+      <h3 id="b-app">About this example</h3>
+
+      <p>
+        This example implements a multi-user session management server for a Recipe Manager REST
+        API. Three simulated users can each start a session tied to a git branch, send prompts
+        like &ldquo;Complete the pagination endpoint,&rdquo; and the agent reads, edits, and
+        commits code on that branch. Sessions can be resumed (Claude picks up exactly where it
+        left off), forked (inheriting another user&rsquo;s conversation and branch), and marked
+        public or private. Each time the user selects a session, Claude introduces the session and updates the user on recent work on the branch.
+      </p>
+      <p>
+        Source code:
+        <ul>
+          <li><a href="https://github.com/timothymcmackin/claude-agent-sdk-takehome/tree/main/sample-app-ts#readme" target="_blank" rel="noopener">README.md</a></li>
+          <li><a href="https://github.com/timothymcmackin/claude-agent-sdk-takehome/tree/main/sample-app-ts" target="_blank" rel="noopener">TypeScript source</a></li>
+          <li><a href="https://github.com/timothymcmackin/claude-agent-sdk-takehome/tree/main/sample-app-python" target="_blank" rel="noopener">Python source</a></li>
+        </ul>
+      </p>
+
+      <h3 id="b-code">The query() call</h3>
+
+      <p>
+        The core of the session management is the <code>query()</code> call. A
+        <code>UserScopedSessionStore</code> wrapper rewrites <code>projectKey</code> to the
+        current user&rsquo;s ID before each call, so each user&rsquo;s sessions are isolated
+        automatically without any extra filtering in the route handlers.
+      </p>
+
+      <p class="code-label">TypeScript</p>
+<pre><code>const stream = query({
+  prompt,
+  options: {
+    // Store transcripts in external Postgres via the Neon MCP server.
+    // UserScopedSessionStore wraps this and rewrites projectKey to ownerUserId
+    // on every call, so each user's sessions are isolated automatically.
+    sessionStore: store,
+
+    // Flush each message as it arrives rather than batching by turn.
+    // Ensures a server crash mid-task loses no transcript entries.
+    sessionStoreFlush: 'eager',
+
+    // Resume a previous session, or omit to start a new one.
+    resume: resumeSessionId,
+
+    // On new sessions, pin the SDK's internal session ID to our UUID so
+    // that subsequent `resume` calls can find it in the store.
+    ...(resumeSessionId ? {} : { sessionId }),
+
+    // Point Claude at the git worktree for this session's branch.
+    cwd: worktreePath(sessionId),
+
+    permissionMode: 'acceptEdits',
+    allowedTools: ['Read', 'Edit', 'Bash', 'Glob', 'Grep'],
+  },
+})
+
+for await (const message of stream) {
+  emit(message) // forward to client via SSE
+}</code></pre>
+
+      <p class="code-label">Python</p>
+<pre><code>stream = query(
+    prompt=prompt,
+    options=ClaudeAgentOptions(
+        # Store transcripts in external Postgres.
+        # UserScopedSessionStore wraps this and rewrites project_key to
+        # owner_user_id on every call, isolating each user's sessions.
+        session_store=store,
+
+        # Flush each message as it arrives rather than batching.
+        session_store_flush="eager",
+
+        # Resume a previous session, or omit to start a new one.
+        resume=resume_session_id,
+
+        # On new sessions, pin the SDK's session ID to our UUID.
+        session_id=session_id if not resume_session_id else None,
+
+        # Point Claude at the git worktree for this session's branch.
+        cwd=worktree_path(session_id),
+
+        permission_mode="acceptEdits",
+        allowed_tools=["Read", "Edit", "Bash", "Glob", "Grep"],
+    ),
+)
+
+async for message in stream:
+    emit(message)  # forward to client</code></pre>
+
+      <h3 id="b-options">Session options</h3>
+
+      <p><strong><code>sessionStore</code></strong> — Pass any object that implements the <code>SessionStore</code> interface. The SDK calls <code>append</code> as each message arrives and <code>load</code> when replaying a session on resume. The interface requires four methods: <code>append</code>, <code>load</code>, <code>listSessions</code>, and <code>delete</code> — your implementation decides where the data lives.</p>
+
+      <p><strong><code>sessionStoreFlush: 'eager'</code></strong> — By default the SDK batches store writes, flushing at the end of each turn. Eager mode writes each message to the store as it arrives. For a coding agent that may crash mid-edit, this ensures no transcript entries are lost.</p>
+
+      <p><strong><code>resume</code></strong> — Pass the stored session ID from a previous <code>query()</code> call. The SDK calls <code>load</code> on your store, replays the messages, and Claude reconstructs its full context — what files it read, what edits it made, what was left to do.</p>
+
+      <p><strong><code>sessionId</code> (new sessions only)</strong> — Pin the SDK&rsquo;s internal session ID to your own UUID on the first call. Without this, the SDK generates a random ID internally that never reaches your database, and every subsequent <code>resume</code> returns null.</p>
+
+      <p><strong><code>cwd</code></strong> — Points Claude at the git worktree for this session&rsquo;s branch. Each session in this example gets its own worktree, so multiple users can work on different branches concurrently without file conflicts.</p>
+
+      <h3 id="b-store">Implementing SessionStore</h3>
+
+      <p>
+        The <code>NeonMCPSessionStore</code> in this example stores entries in Neon Postgres via
+        an MCP server subprocess — no direct database connection string needed. You can use any
+        backend: <code>append</code> inserts a row, <code>load</code> returns rows ordered by
+        insertion time, <code>listSessions</code> groups by session ID for the session picker UI,
+        and <code>delete</code> removes them.
+      </p>
+
+      <h3 id="b-walkthrough">Example walkthrough</h3>
+
+      <figure style="margin: 12px 0 20px;">
+        <img src="images/available-sessions.png" alt="User picker showing Sam, Henry, and Joan with a list of sessions below"
+             style="width:300px; cursor:zoom-in; display:block; border:1px solid var(--border); border-radius:4px;"
+             onclick="document.getElementById('lb-sessions').showModal()">
+        <figcaption style="font-size:14px; color:var(--muted); margin-top:6px;">Select a user to see their sessions plus any public sessions from others.</figcaption>
+      </figure>
+      <dialog id="lb-sessions" style="padding:0; border:none; background:transparent; max-width:95vw; max-height:95vh;"
+              onclick="this.close()">
+        <img src="images/available-sessions.png" alt="User picker and session list"
+             style="max-width:95vw; max-height:95vh; display:block; border-radius:6px; box-shadow:0 8px 40px rgba(0,0,0,.45); cursor:zoom-out;">
+      </dialog>
+
+      <figure style="margin: 12px 0 20px;">
+        <img src="images/new-session.png" alt="New session dialog with a branch name field and Create Session button"
+             style="width:300px; cursor:zoom-in; display:block; border:1px solid var(--border); border-radius:4px;"
+             onclick="document.getElementById('lb-new-session').showModal()">
+        <figcaption style="font-size:14px; color:var(--muted); margin-top:6px;">Click <strong>+ New</strong> to start a fresh session on a new or existing branch.</figcaption>
+      </figure>
+      <dialog id="lb-new-session" style="padding:0; border:none; background:transparent; max-width:95vw; max-height:95vh;"
+              onclick="this.close()">
+        <img src="images/new-session.png" alt="New session dialog with branch picker"
+             style="max-width:95vw; max-height:95vh; display:block; border-radius:6px; box-shadow:0 8px 40px rgba(0,0,0,.45); cursor:zoom-out;">
+      </dialog>
+
+      <figure style="margin: 12px 0 20px;">
+        <img src="images/claude-intro-to-session.png" alt="Claude's opening message describing the branch, HEAD commit, and current working tree state"
+             style="width:300px; cursor:zoom-in; display:block; border:1px solid var(--border); border-radius:4px;"
+             onclick="document.getElementById('lb-intro').showModal()">
+        <figcaption style="font-size:14px; color:var(--muted); margin-top:6px;">When a session loads, Claude reads the branch state and orients the user before they type anything.</figcaption>
+      </figure>
+      <dialog id="lb-intro" style="padding:0; border:none; background:transparent; max-width:95vw; max-height:95vh;"
+              onclick="this.close()">
+        <img src="images/claude-intro-to-session.png" alt="Claude's opening message summarizing the branch state"
+             style="max-width:95vw; max-height:95vh; display:block; border-radius:6px; box-shadow:0 8px 40px rgba(0,0,0,.45); cursor:zoom-out;">
+      </dialog>
+
+      <figure style="margin: 12px 0 20px;">
+        <img src="images/full-conversation.png" alt="Full app view: session sidebar on the left, Claude's analysis and the user's prompt on the right"
+             style="width:300px; cursor:zoom-in; display:block; border:1px solid var(--border); border-radius:4px;"
+             onclick="document.getElementById('lb-full-conversation').showModal()">
+        <figcaption style="font-size:14px; color:var(--muted); margin-top:6px;">The user sends a prompt; the app routes it to Claude via the SDK, which reads, edits, and commits code in the session&rsquo;s git worktree.</figcaption>
+      </figure>
+      <dialog id="lb-full-conversation" style="padding:0; border:none; background:transparent; max-width:95vw; max-height:95vh;"
+              onclick="this.close()">
+        <img src="images/full-conversation.png" alt="Full app view with sidebar and conversation panel"
+             style="max-width:95vw; max-height:95vh; display:block; border-radius:6px; box-shadow:0 8px 40px rgba(0,0,0,.45); cursor:zoom-out;">
+      </dialog>
+
+      <h3>Next steps</h3>
+
+      <p>If I had more time I would:</p>
+      <ul>
+        <li><strong>Deploy to a hosted platform.</strong> Railway or Render would make the application publicly accessible so anyone at Anthropic could run it. The short-lived API key meant deployment wasn't worth the effort for this submission, but for a real docs example the application would need a live URL.</li>
+        <li><strong>Write a companion docs page for the application itself.</strong> A page explaining the application's structure, how each part of it demonstrates persistent sessions in a complex codebase context, and what a developer could do next — for example, wiring up a real auth layer, scaling the session store across multiple running instances of the server, or adding a tool that lets Claude request a code review before committing.</li>
+      </ul>
+
+      <h3 id="b-footnote">Footnotes</h3>
+
+      <p><strong>What tripped Tim up</strong></p>
+      <ul class="notes-list">
+        <li><strong>Claude Code must be installed locally to use the SDK.</strong> The SDK runs Claude Code as a subprocess, so it must be installed and available in the terminal environment. This may be a limitation when running SDK applications locally, but is less likely to be a factor in production deployments where Claude Code can be pre-installed in the container image.</li>
+        <li><strong>Setup is too complex.</strong> Hand-coding an application would take too long for this exercise, but I went a little overboard having Claude generate an enterprise-level application. As it stands this would require too many steps for users to set up, use, and understand. I'd look for ways to show session management without requiring this scale of an application.</li>
+      </ul>
+
+      <p><strong>What tripped Claude up</strong></p>
+      <ol class="notes-list">
+        <li><strong><code>sessionId</code> pinning.</strong> Easy to miss: if you don't pass <code>sessionId</code> on the first <code>query()</code> call, the SDK generates its own UUID internally that never makes it into your database, and every subsequent <code>resume</code> call returns null.</li>
+        <li><strong><code>sessionStoreFlush: 'eager'</code> is not the default.</strong> The default batches flushes for performance. For a codebase agent that may crash mid-edit, this distinction matters — the default can leave transcript entries in a buffer that never reaches the store.</li>
+        <li><strong>JSONB key ordering.</strong> Postgres <code>jsonb</code> reorders object keys on read-back. The SDK contract explicitly allows this (it requires deep-equal, not byte-equal, round-trips), but it was surprising to see stored entries come back in a different key order than they went in.</li>
+        <li><strong>MCP stdio for the session store.</strong> Connecting the Neon MCP server as a <code>SessionStore</code> backend required spawning it as a stdio child process and managing that connection. The SDK docs don't describe this pattern yet — it's a creative use of MCP for database access rather than tool execution.</li>
+      </ol>
+    </section>
+
+    <hr>
+
     <!-- ── AI Usage ── -->
     <section class="section" id="ai-usage">
       <p class="section-label">Notes</p>
       <h2 class="section-title">AI usage</h2>
       <p>I used Claude Code for the following:</p>
+      <h3>Part A</h3>
       <ul class="notes-list">
         <li>Extracting the current navigation into a Markdown file to work with locally</li>
         <li>Syncing my terminology with the rest of the Claude Code docs (for example, which verb to use when describing spawning agents)</li>
         <li>Research questions — double-checking my understanding of what I read in the existing docs and clarifying deployment concepts</li>
-        <li>Converting notes from Markdown files and Google Docs into presentation-ready HTML pages</li>
+        <li>Converting notes from Markdown files and Google Docs into this presentation-ready page</li>
         <li>Generating a mockup site based on my description of the site navigation and deploying it with Netlify</li>
+        <li>Filling in the descriptions of existing and net-new pages</li>
       </ul>
+    <h3>Part B</h3>
+    <ul class="notes-list">
+      <li>Liberal use of plan mode to sketch the design for the application and ensure that it's a realistic use case</li>
+      <li>Generating the application, discussing deployment options, and ensuring that the application would work in a deployed state</li>
+      <li>Debugging the running application and making fixes</li>
+      <li>Converting my description of the application to the explanation on this page</li>
+    </ul>
     </section>
 
   </main>
