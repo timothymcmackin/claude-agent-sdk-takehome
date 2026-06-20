@@ -1150,6 +1150,7 @@ async for message in stream:
       <ul>
         <li><strong>Deploy to a hosted platform.</strong> Railway or Render would make the application publicly accessible so anyone at Anthropic could run it. The short-lived API key meant deployment wasn't worth the effort for this submission, but for a real docs example the application would need a live URL.</li>
         <li><strong>Write a companion docs page for the application itself.</strong> A page explaining the application's structure, how each part of it demonstrates persistent sessions in a complex codebase context, and what a developer could do next — for example, wiring up a real auth layer, scaling the session store across multiple running instances of the server, or adding a tool that lets Claude request a code review before committing.</li>
+        <li><strong>Simplify the application.</strong> Hand-coding an application would take too long for this exercise, but I went a little overboard having Claude generate an enterprise-level application. As it stands this would require too many steps for users to set up, use, and understand. I'd look for ways to show session management without requiring this scale of an application.</li>
       </ul>
 
       <h3 id="b-footnote">Footnotes</h3>
@@ -1157,7 +1158,6 @@ async for message in stream:
       <p><strong>What tripped Tim up</strong></p>
       <ul class="notes-list">
         <li><strong>Claude Code must be installed locally to use the SDK.</strong> The SDK runs Claude Code as a subprocess, so it must be installed and available in the terminal environment. This may be a limitation when running SDK applications locally, but is less likely to be a factor in production deployments where Claude Code can be pre-installed in the container image.</li>
-        <li><strong>Setup is too complex.</strong> Hand-coding an application would take too long for this exercise, but I went a little overboard having Claude generate an enterprise-level application. As it stands this would require too many steps for users to set up, use, and understand. I'd look for ways to show session management without requiring this scale of an application.</li>
       </ul>
 
       <p><strong>What tripped Claude up</strong></p>
