@@ -974,11 +974,6 @@
         <p>Build an example you think the page would benefit from: working code in both TypeScript and Python, plus the surrounding prose as it would appear on the page introducing and explaining the example.</p>
       </div>
 
-      <p>
-        By default, <code>query()</code> stores sessions under <code>CLAUDE_CONFIG_DIR</code>
-        on the local filesystem; this example shows how to move them to an external store using
-        the SDK&rsquo;s <code>SessionStore</code> interface.
-      </p>
 
       <h3 id="b-app">About this example</h3>
 
@@ -989,6 +984,11 @@
         commits code on that branch. Sessions can be resumed (Claude picks up exactly where it
         left off), forked (inheriting another user&rsquo;s conversation and branch), and marked
         public or private. Each time the user selects a session, Claude introduces the session and updates the user on recent work on the branch.
+      </p>
+      <p>
+        By default, <code>query()</code> stores sessions under <code>CLAUDE_CONFIG_DIR</code> on the local filesystem.
+        This example demonstrates storing sessions in an external store using the SDK&rsquo;s <code>SessionStore</code> interface.
+        You can use this example as a model for storing a library of sessions in any external backend, such as a hosted Postgres database, Redis, DynamoDB, or any other store your infrastructure already includes.
       </p>
       <p>
         Source code:
@@ -1002,10 +1002,11 @@
       <h3 id="b-code">The query() call</h3>
 
       <p>
-        The core of the session management is the <code>query()</code> call. A
-        <code>UserScopedSessionStore</code> wrapper rewrites <code>projectKey</code> to the
-        current user&rsquo;s ID before each call, so each user&rsquo;s sessions are isolated
-        automatically without any extra filtering in the route handlers.
+        The <code>query()</code> call returns an async iterable of SDK message objects; iterating
+        it drives the agent forward and lets you forward each message to the client as it arrives.
+        This call passes all five session options for external storage; the
+        <code>UserScopedSessionStore</code> wrapper handles per-user isolation by rewriting
+        <code>projectKey</code> to the current user&rsquo;s ID before each call.
       </p>
 
       <p class="code-label">TypeScript</p>
