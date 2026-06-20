@@ -1,0 +1,26 @@
+{
+  "name": "session-management-sample",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "setup": "tsx setup-neon.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "latest",
+    "@modelcontextprotocol/sdk": "latest",
+    "@neondatabase/mcp-server-neon": "0.6.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.19.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/node": "^20.0.0",
+    "@types/supertest": "^6.0.0",
+    "supertest": "^7.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^2.0.0"
+  }
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session Manager — Recipe Manager API</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div id="user-picker">
+        <span class="label">Logged in as:</span>
+        <div class="user-buttons">
+          <button class="user-btn active" data-user="sam">Sam</button>
+          <button class="user-btn" data-user="henry">Henry</button>
+          <button class="user-btn" data-user="joan">Joan</button>
+        </div>
+      </div>
+
+      <div id="session-list-header">
+        <span class="label">Sessions</span>
+        <button id="new-session-btn" title="New session">+ New</button>
+      </div>
+
+      <div id="session-list">
+        <p class="empty-state">No sessions yet</p>
+      </div>
+    </aside>
+
+    <main id="chat-panel">
+      <div id="chat-header">
+        <div id="chat-title">Select a session or start a new one</div>
+        <div id="chat-branch"></div>
+      </div>
+      <div id="messages"></div>
+      <form id="prompt-form">
+        <textarea id="prompt-input" placeholder="Ask the agent to work on the Recipe Manager API…" rows="3" disabled></textarea>
+        <button type="submit" id="send-btn" disabled>Send</button>
+      </form>
+    </main>
+  </div>
+
+  <!-- New session dialog -->
+  <dialog id="new-session-dialog">
+    <h2>New Session</h2>
+    <p>Choose an existing branch or type a new branch name.</p>
+    <label>
+      Branch name
+      <input id="branch-input" list="branch-datalist" placeholder="feature/my-feature" autocomplete="off">
+      <datalist id="branch-datalist"></datalist>
+    </label>
+    <div class="dialog-actions">
+      <button id="create-session-btn" type="button">Create Session</button>
+      <button type="button" onclick="document.getElementById('new-session-dialog').close()">Cancel</button>
+    </div>
+  </dialog>
+
+  <!-- Fork session dialog -->
+  <dialog id="fork-dialog">
+    <h2>Fork Session</h2>
+    <p>The fork will start a new session on its own branch.</p>
+    <label>
+      New branch name
+      <input id="fork-branch-input" placeholder="feature/my-branch-fork" autocomplete="off">
+    </label>
+    <div class="dialog-actions">
+      <button id="confirm-fork-btn" type="button">Fork</button>
+      <button type="button" onclick="document.getElementById('fork-dialog').close()">Cancel</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

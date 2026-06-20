@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: .env
+    environment:
+      # REPO_DIR and WORKTREE_BASE default to /workspace/* inside the container
+      REPO_DIR: /workspace/sample-repo
+      WORKTREE_BASE: /workspace/worktrees
+    volumes:
+      # Persist worktrees across restarts so re-mounts don't need a fresh checkout.
+      # Remove this volume to get a clean slate on every `docker compose up`.
+      - worktree-data:/workspace/worktrees
+
+volumes:
+  worktree-data:
