@@ -1004,9 +1004,9 @@
       <p>
         The <code>query()</code> call returns an async iterable of SDK message objects; iterating
         it drives the agent forward and lets you forward each message to the client as it arrives.
-        This call passes all five session options for external storage; the
-        <code>UserScopedSessionStore</code> wrapper handles per-user isolation by rewriting
-        <code>projectKey</code> to the current user&rsquo;s ID before each call.
+        This call passes all five session options for external storage; the store is wrapped
+        to rewrite <code>projectKey</code> to the current user&rsquo;s ID before each call,
+        so each user&rsquo;s sessions are isolated automatically.
       </p>
 
       <p class="code-label">TypeScript</p>
@@ -1071,6 +1071,8 @@ async for message in stream:
     emit(message)  # forward to client</code></pre>
 
       <h3 id="b-options">Session options</h3>
+
+      <p>The five options in the call above work together to move sessions out of the local filesystem and into an external store, keep each user&rsquo;s sessions isolated, and let Claude resume exactly where it left off. Here&rsquo;s what each one does.</p>
 
       <p><strong><code>sessionStore</code></strong> — Pass any object that implements the <code>SessionStore</code> interface. The SDK calls <code>append</code> as each message arrives and <code>load</code> when replaying a session on resume. The interface requires four methods: <code>append</code>, <code>load</code>, <code>listSessions</code>, and <code>delete</code> — your implementation decides where the data lives.</p>
 
