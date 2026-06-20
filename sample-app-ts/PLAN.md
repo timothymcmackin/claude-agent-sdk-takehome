@@ -34,7 +34,7 @@ Express ──MCP client──► @neondatabase/mcp-server-neon (stdio subproces
     "neon": {
       "command": "npx",
       "args": ["-y", "@neondatabase/mcp-server-neon", "start"],
-      "env": { "NEON_API_KEY": "napi_cud7raokgyh0nsrlbf990smr8ivzj7yl65nrz6ad2xy7ag18hm0bl43eslsjq785" }
+      "env": { "NEON_API_KEY": "" }
     }
   }
 }
